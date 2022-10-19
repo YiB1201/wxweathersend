@@ -1,0 +1,25 @@
+{
+# 公众号配置
+# 公众号appId
+"app_id": "wx056155e9d1aad0de",
+# 公众号appSecret
+"app_secret": "babc0ae28300dfda05b8d3702cb09579",
+# 模板消息id
+"template_id": "yD8c5z6qHO2tsaSUl1-JnJqDJl0kV7mkGwLCC9_t1Eg",
+# 接收公众号消息的微信号，如果有多个，需要在[]里用英文逗号间隔，例如["wx1", "wx2"]
+"user": ["othJC5515lrA_D3a-kPAi0Mb8x0M","othJC5wytfXEl2pgTPFq8ZS8vMKw","othJC57LoaGwFuVeurT3SVTQAQ0M"],
+ 
+# 信息配置
+# 和风天气apikey
+"weather_key": "a7459de7e7d04fe18fb315de2710211f",
+# 所在地区，可为省，城市，区，县，同时支持国外城市，例如伦敦
+"region": "呼和浩特市",
+# 节日1，修改名字为对应需要显示的节日名字，如果节日为农历，在最前面加上r即可
+"festival1": {"name": "春节", "data": "r1985-01-01"},
+# 节日2
+"festival2": {"name": "元旦", "data": "1983-01-01"},
+# 金句中文，如果设置了，则会显示这里的，如果为空，默认会读取金山的每日金句
+"note_ch": "",
+# 金句英文
+"note_en": ""
+}
