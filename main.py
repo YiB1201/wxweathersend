@@ -56,9 +56,20 @@ def get_weather(region):
     weather = response["now"]["text"]
     # 当前温度
     temp = response["now"]["temp"] + u"\N{DEGREE SIGN}" + "C"
+    it = int(response["now"]["temp"])
+    if it >= 25:
+        jy = "穿半袖就够了,穿多了热屎你"
+    elif it >= 15 and it < 25:
+        jy = "一层外套就够啦,穿少冻死你，穿多热死你"
+    elif it < 15 and it > 5:
+        jy = "多穿点吧,穿少了会感冒的"
+    elif it <= 5 and it > -15:
+        jy = "棉袄,羽绒服穿起来,穿少了可就嗝屁了！！"
+    elif it <= -15:
+        jy = "等屎吧！除非你有暖宝宝、羽绒服、毛毯、电暖炉"
     # 风向
     wind_dir = response["now"]["windDir"]
-    return weather, temp, wind_dir
+    return weather, temp, wind_dir, jy
 
 
 def get_festival(festival, year, today):
@@ -116,7 +127,7 @@ def get_ciba():
 
 
 def send_message(to_user, access_token, region_name, weather, temp, wind_dir, xiancun, yisi, leiji, zhiyu, siwang,
-                 note_ch, note_en):
+                 note_ch, note_en, cyjy):
     url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token={}".format(access_token)
     week_list = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"]
     year = localtime().tm_year
@@ -149,6 +160,10 @@ def send_message(to_user, access_token, region_name, weather, temp, wind_dir, xi
             },
             "temp": {
                 "value": temp,
+                "color": get_color()
+            },
+            "jy": {
+                "value": cyjy,
                 "color": get_color()
             },
             "wind_dir": {
@@ -231,7 +246,7 @@ if __name__ == "__main__":
     users = config["user"]
     # 传入地区获取天气信息
     region = config["region"]
-    weather, temp, wind_dir = get_weather(region)
+    weather, temp, wind_dir, jy = get_weather(region)
     note_ch = config["note_ch"]
     note_en = config["note_en"]
     if note_ch == "" and note_en == "":
@@ -241,5 +256,5 @@ if __name__ == "__main__":
     dic = paqu()
     for user in users:
         send_message(user, accessToken, region, weather, temp, wind_dir, dic["现存确诊"], dic["疑似"], dic["累计确诊"], dic["治愈"],
-                     dic["死亡"], note_ch, note_en)
+                     dic["死亡"], note_ch, note_en, jy)
     os.system("pause")
