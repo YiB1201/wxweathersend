@@ -5,7 +5,6 @@ from datetime import datetime, date
 from time import localtime
 from requests import get, post
 from zhdate import ZhDate
-from yiqin import *
 
 def get_color():
     # 获取随机颜色
@@ -126,7 +125,7 @@ def get_ciba():
     return note_ch, note_en
 
 
-def send_message(to_user, access_token, region_name, weather, temp, wind_dir, xiancun, yisi, leiji, zhiyu, siwang,
+def send_message(to_user, access_token, region_name, weather, temp, wind_dir,
                  note_ch, note_en, cyjy):
     url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token={}".format(access_token)
     week_list = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"]
@@ -170,26 +169,26 @@ def send_message(to_user, access_token, region_name, weather, temp, wind_dir, xi
                 "value": wind_dir,
                 "color": get_color()
             },
-            "xiancun": {
-                "value": xiancun,
-                "color": get_color()
-            },
-            "yisi": {
-                "value": yisi,
-                "color": get_color()
-            },
-            "leiji": {
-                "value": leiji,
-                "color": get_color()
-            },
-            "zhiyu": {
-                "value": zhiyu,
-                "color": get_color()
-            },
-            "siwang": {
-                "value": siwang,
-                "color": get_color()
-            },
+            # "xiancun": {
+            #     "value": xiancun,
+            #     "color": get_color()
+            # },
+            # "yisi": {
+            #     "value": yisi,
+            #     "color": get_color()
+            # },
+            # "leiji": {
+            #     "value": leiji,
+            #     "color": get_color()
+            # },
+            # "zhiyu": {
+            #     "value": zhiyu,
+            #     "color": get_color()
+            # },
+            # "siwang": {
+            #     "value": siwang,
+            #     "color": get_color()
+            # },
             "note_en": {
                 "value": note_en,
                 "color": get_color()
@@ -247,14 +246,13 @@ if __name__ == "__main__":
     # 传入地区获取天气信息
     region = config["region"]
     weather, temp, wind_dir, jy = get_weather(region)
+    city = config["city"]
     note_ch = config["note_ch"]
     note_en = config["note_en"]
     if note_ch == "" and note_en == "":
         # 获取词霸每日金句
         note_ch, note_en = get_ciba()
     # 公众号推送消息
-    dic = paqu()
     for user in users:
-        send_message(user, accessToken, region, weather, temp, wind_dir, dic["现存确诊"], dic["疑似"], dic["累计确诊"], dic["治愈"],
-                     dic["死亡"], note_ch, note_en, jy)
+        send_message(user, accessToken, region, weather, temp, wind_dir, note_ch, note_en, jy)
     os.system("pause")
